@@ -13,3 +13,15 @@ class Discriminator(nn.Module):
         self.fc4 = nn.Linear(hid3_size, 1)
     
         self.LeakyReLU = nn.LeakyReLU(0.2)
+
+    def forward(self, input):
+        x = input.view(-1, 100)
+        x = self.LeakyReLU(self.fc1(x))
+        x = self.bn1(x)
+        x = self.LeakyReLU(self.fc2(x))
+        x = self.bn2(x)
+        x = self.LeakyReLU(self.fc3(x))
+        x = self.bn3(x)
+        x = torch.tanh(self.fc4(x))
+        x = x.view(-1, 28, 28)
+        return x
