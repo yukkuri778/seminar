@@ -32,10 +32,7 @@ class Discriminator(nn.Module):
             nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
             nn.Sigmoid()
         )
+   
     def forward(self, input):
-        x = input.view(-1, 784)
-        x = self.LeakyReLU(self.fc1(x))
-        x = self.LeakyReLU(self.fc2(x))
-        x = self.LeakyReLU(self.fc3(x))
-        x = torch.sigmoid(self.fc4(x))
-        return x
+        # 最後に .view(-1) をして、[Batch, 1, 1, 1] を [Batch] の形にする
+        return self.main(input).view(-1)
