@@ -14,6 +14,7 @@ def get_mnist_dataloader(
     """
 
     transform = transforms.Compose([
+        transforms.Resize(64),
         transforms.ToTensor(),                 # [0,1]
         transforms.Normalize((0.5,), (0.5,))   # → [-1,1]
     ])
