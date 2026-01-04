@@ -2,26 +2,40 @@ import torch
 import torch.nn as nn
 
 class Discriminator(nn.Module):
-    def __init__(self, ngpu, hid1_size = 1024, hid2_size = 512,
-                 hid3_size = 256, batch_size = 4):
+    def __init__(self, nc=1, ndf=64):
+        """
+        DCGAN Discriminator (識別器)
+        Args:
+            nc (int): 入力画像のチャンネル数 (Default: 1)
+            ndf (int): フィルタ数の基準 (Default: 64)
+        """
         super(Discriminator, self).__init__()
-        self.ngpu = ngpu
-        self.b_size = batch_size
-        self.fc1 = nn.Linear(784, hid1_size)
-        self.fc2 = nn.Linear(hid1_size, hid2_size)
-        self.fc3 = nn.Linear(hid2_size, hid3_size)
-        self.fc4 = nn.Linear(hid3_size, 1)
-    
-        self.LeakyReLU = nn.LeakyReLU(0.2)
-
+        self.main = nn.Sequential(
+            # 入力: (nc) x 64 x 64
+            # 畳み込みで画像を圧縮していく (鑑定)
+            nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
+            nn.LeakyReLU(0.2, inplace=True),
+            # (ndf) x 32 x 32
+            nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+            # (ndf*2) x 16 x 16
+            nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # (ndf*4) x 8 x 8
+            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 8),
+            nn.LeakyReLU(0.2, inplace=True),
+            # (ndf*8) x 4 x 4
+            # 最終的に1つの数字(確率)にする
+            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
+            nn.Sigmoid()
+        )
     def forward(self, input):
-        x = input.view(-1, 100)
+        x = input.view(-1, 784)
         x = self.LeakyReLU(self.fc1(x))
-        x = self.bn1(x)
         x = self.LeakyReLU(self.fc2(x))
-        x = self.bn2(x)
         x = self.LeakyReLU(self.fc3(x))
-        x = self.bn3(x)
-        x = torch.tanh(self.fc4(x))
-        x = x.view(-1, 28, 28)
+        x = torch.sigmoid(self.fc4(x))
         return x
