@@ -11,25 +11,21 @@ class Discriminator(nn.Module):
         """
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
-            # 入力: (nc) x 64 x 64
+            # 入力: (nc) x 32 x 32
             # 畳み込みで画像を圧縮していく (鑑定)
             nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
             nn.LeakyReLU(0.2, inplace=True),
-            # (ndf) x 32 x 32
+            # (ndf) x 16 x 16
             nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 2),
             nn.LeakyReLU(0.2, inplace=True),
-            # (ndf*2) x 16 x 16
+            # (ndf*2) x 4 x 4
             nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 4),
             nn.LeakyReLU(0.2, inplace=True),
-            # (ndf*4) x 8 x 8
-            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 8),
-            nn.LeakyReLU(0.2, inplace=True),
-            # (ndf*8) x 4 x 4
+            # (ndf*8) x 1 x 1
             # 最終的に1つの数字(確率)にする
-            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
+            nn.Conv2d(ndf * 4, 1, 4, 1, 0, bias=False),
             nn.Sigmoid()
         )
    
