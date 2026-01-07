@@ -5,7 +5,7 @@
 
 # 12/29にやったこと
 .
-├── README.md
+├── README.md(br)
 ├── data.py
 ├── models/
 │   ├── generator.py
