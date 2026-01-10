@@ -82,10 +82,10 @@ def train():
     print(f"画像保存先: {img_save_dir}")
 
     # ハイパーパラメータ
-    batch_size = 128
-    z_dim = 100
-    lr = 0.0002
-    epochs = 3 
+    batch_size = 128 #バッチサイズ
+    z_dim = 100 #潜在変数の次元
+    lr = 0.0002 #学習率
+    epochs = 20 #エポック数
 
     dataloader = get_mnist_dataloader(batch_size)
     netG = Generator(z_dim=z_dim).to(device)
