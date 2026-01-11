@@ -6,7 +6,7 @@
 
 ## モデル構造: Discriminator (識別器)
 
-本プロジェクトの Discriminator は、DCGAN (Deep Convolutional GAN) のアーキテクチャを採用しており、32x32ピクセルの画像を入力として、それが本物のデータか生成された偽物かを識別・判定している。
+本プロジェクトの Discriminator は、**DCGAN (Deep Convolutional GAN)** のアーキテクチャを採用しており、32x32ピクセルの画像を入力として、それが本物のデータか生成された偽物かを識別・判定している。
 
 ### アーキテクチャ概要
 Generatorは、**転置畳み込み (Transposed Convolution)** を用いて、特徴マップのサイズを段階的に拡大（アップサンプリング）していく構造になっている。
