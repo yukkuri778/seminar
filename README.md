@@ -1,17 +1,5 @@
-# seminar
+# 情報学ゼミ課題チームB
 
-
-# 12/29にやったこと
-.
-├── README.md
-├── data.py
-├── models/
-│   ├── generator.py
-│   └── discriminator.py
-└── data/
-
-・data.pyにデータパイプラインの部分が入っている。
-・generatorのコードなどはmodelsディレクトリ内のファイルに書いていく感じがいいかな。
 ## モデル構造: Generator (生成器)
 
 本プロジェクトの Generator は、**DCGAN (Deep Convolutional GAN)** のアーキテクチャを採用しており、100次元の乱数（ノイズ）を入力として、32x32ピクセルの手書き数字画像を生成している。
@@ -98,6 +86,7 @@ python morphing.py
     * 保存先: `dcgan_output/images/morphing_reference_grid.png`
 2.  この画像を開き、変化させたい数字（スタート地点とゴール地点）のインデックス（0〜63）を確認。
 3.  ターミナルに入力を求められるので、数値を入力して Enter を押す。
+    -  左上が0、右下が63
 
     ```text
     開始する画像のインデックス : 59  <-- 例: "4"の場所を入力
@@ -107,7 +96,20 @@ python morphing.py
 4.  指定した2つの数字の間を滑らかに変化させた画像が保存される。
     * 保存先: `dcgan_output/images/morphing_59_to_29.png`
     *(※ ファイル名の数字部分は、入力したインデックスに対応している)*
-    
+
+### ディレクトリ構成
+プログラム実行後、以下のような構成になる。
+```
+.
+├── dcgan.py            # 学習用スクリプト
+├── morphing.py         # モーフィング生成用スクリプト
+├── data/               # MNISTデータセット（自動生成）
+└── dcgan_output/       # 出力フォルダ（自動生成）
+    ├── images/         # 生成された画像
+    ├── models/         # 学習済みモデル（.pth）
+    └── graphs/         # Lossグラフ
+```
+
 ## 実行結果 (Results)
 
 本プロジェクトによる学習・生成結果の一例。
